@@ -56,10 +56,6 @@ services:
     ports:
       - "3000:3000"
 
-    # Create a link between mongo and app containers
-    links:
-      - skrypt_db
-
     # Start mongo container before app container (does not wait for mongo to be up and running before starting app container)
     depends_on:
       - skrypt_db

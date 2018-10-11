@@ -5,8 +5,8 @@
 # We'll use this image because it's lightweight and has almost everything we need
 FROM mhart/alpine-node:6.14.3
 
-# Install python
-RUN apt-get update && apt-get install -y build-essential && apt-get install -y python && npm install
+# Install build-essential equivalent and python
+RUN apk update && apk add dpkg-dev && apk add g++ && apk add gcc && apk add libc-dev && apk add make && apk add python
 
 # Add everything from our local project directory to our container in the `/skrypt` directory
 RUN mkdir /skrypt
@@ -18,7 +18,7 @@ WORKDIR /skrypt
 COPY package.json /skrypt
 
 # Run `npm install` to install all of the dependencies in `package.json`
-RUN npm rebuild bcrypt --build-from-source=bcrypt
+RUN npm install && npm install -g nodemon && npm rebuild bcrypt --build-from-source=bcrypt 
 
 # Now copy everything from host project directory root into `/skrypt` inside the app container
 COPY . /skrypt
